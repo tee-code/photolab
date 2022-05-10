@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PhotoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(PhotoController::class)->group(function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/upload', 'create')->name('upload');
+    Route::post('/photos/photo', 'store')->name('photos.upload');
+    Route::delete('/photos/{photo}', 'destroy')->name('photo.delete');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

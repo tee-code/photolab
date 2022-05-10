@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 
 class PhotoController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index']);
+    }
+
+    public function dashboard()
+    {
+
+        $photos = Photo::paginate(5);
+
+        return view('dashboard', compact('photos'));
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +29,9 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        return view('upload');
+        $photos = Photo::paginate(30);
+
+        return view('welcome', compact('photos'));
     }
 
     /**
@@ -25,7 +41,8 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('upload');
     }
 
     /**
@@ -43,9 +60,15 @@ class PhotoController extends Controller
         
         $photoName = $originalName . '.' . time() . '.' . $photo->extension();
 
-        $photo->move(storage_path('images'), $photoName);
+        $photo->move(storage_path('app/public/images'), $photoName);
 
-        return response()->json(['success' => true, 'data' => $photoName]);
+        Photo::create([
+            'name' => $originalName,
+            'path' => '/storage/images/' . $photoName,
+            'user_id' => auth()->user()->id
+        ]);
+
+        return response()->json(['success' => $photoName]);
 
     }
 
@@ -89,8 +112,11 @@ class PhotoController extends Controller
      * @param  \App\Models\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Photo $photo)
+    public function destroy($id)
     {
-        //
+        Photo::destroy($id);
+
+
+        return redirect()->back()->with('success', 'Photo deleted successfully.');
     }
 }
