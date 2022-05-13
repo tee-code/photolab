@@ -15,7 +15,7 @@
                         @foreach ($photos as $photo)
                             <div class="rounded-lg shadow-md relative group cursor-pointer">
                                 <img src="{{ $photo->path }}" alt="{{ $photo->name }}" />
-                                <div class="hidden absolute w-full h-full top-0 left-0 bg-secondary opacity-75 text-white group-hover:flex justify-end align-top">
+                                <div class="hidden absolute w-full h-full top-0 left-0 gradient-bg opacity-75 text-white group-hover:flex justify-end align-top">
                                     <form action="{{ route('photo.delete', $photo->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
