@@ -64,7 +64,7 @@
         </div>
         {{ $slot }}
 
-        <footer class="flex justify-between text-white bg-secondary p-3 mt-5">PhotoLab <?php echo date('Y') ?> | Oluwatobi Odekunle</footer>
+        <footer class="flex justify-between text-white gradient-bg p-3 mt-5">PhotoLab <?php echo date('Y') ?> | Oluwatobi Odekunle</footer>
 
         <script type="text/javascript">
             Dropzone.options.imageUpload = {
